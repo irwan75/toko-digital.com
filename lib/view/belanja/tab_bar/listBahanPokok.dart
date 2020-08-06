@@ -9,6 +9,7 @@ import '../../../model/data_barang.dart';
 
 class ListBahanPokok extends StatefulWidget {
   final List<Data_barang> bahanPokok;
+  
   final List<String> bahanPokokSub;
   ListBahanPokok({this.bahanPokok, this.bahanPokokSub});
 
@@ -19,6 +20,7 @@ class ListBahanPokok extends StatefulWidget {
 
 class _ListBahanPokokState extends State<ListBahanPokok> {
   final List<Data_barang> bahanPokok;
+  
   final List<String> bahanPokokSub;
   _ListBahanPokokState({this.bahanPokokSub, this.bahanPokok});
   @override
@@ -28,6 +30,7 @@ class _ListBahanPokokState extends State<ListBahanPokok> {
       height: MediaQuery.of(context).size.height,
       padding: EdgeInsets.all(10),
       child: SingleChildScrollView(
+        controller: Provider.of<BelanjaProvider>(context, listen: false).controller,
         child: Column(
           children: <Widget>[
             Column(

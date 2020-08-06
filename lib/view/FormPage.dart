@@ -178,7 +178,7 @@ class _FormPageState extends State<FormPage> {
                   labelText: "Pengantaran",
                   border: OutlineInputBorder(),
                   icon: Icon(
-                    Icons.emoji_transportation,
+                    Icons.local_taxi,
                     color: Colors.green.shade600,
                     size: 32,
                   ),

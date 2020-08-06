@@ -5,6 +5,7 @@ import 'package:flutter/rendering.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:toko_digital/data.dart';
 import 'package:toko_digital/view/belanja/informasi_toko.dart';
 import 'package:toko_digital/view/belanja/keranjang.dart';
 import 'package:toko_digital/view/belanja/tab_bar/listBahanKue.dart';
@@ -32,11 +33,36 @@ class Beranda extends StatefulWidget {
 
 class _BerandaState extends State<Beranda> with SingleTickerProviderStateMixin {
   TabController _controller;
+  ScrollController _scrollController;
+  bool muncul = true;
 
   @override
   void initState() {
     super.initState();
     _controller = TabController(vsync: this, initialIndex: 0, length: 11);
+
+    Provider.of<BelanjaProvider>(context, listen: false)
+        .controller
+        .addListener(() {
+      if (Provider.of<BelanjaProvider>(context, listen: false)
+              .controller
+              .position
+              .userScrollDirection ==
+          ScrollDirection.reverse) {
+        setState(() {
+          muncul = false;
+        });
+      }
+      if (Provider.of<BelanjaProvider>(context, listen: false)
+              .controller
+              .position
+              .userScrollDirection ==
+          ScrollDirection.forward) {
+        setState(() {
+          muncul = true;
+        });
+      }
+    });
     getData();
   }
 
@@ -378,76 +404,84 @@ class _BerandaState extends State<Beranda> with SingleTickerProviderStateMixin {
         ),
       ]),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: Material(
-        child: GestureDetector(
-          onTap: () {
-            Navigator.of(context)
-                .push(MaterialPageRoute(builder: (_) => Keranjang()));
-          },
-          child: Container(
-            padding: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
-            margin: EdgeInsets.symmetric(horizontal: 20),
-            width: MediaQuery.of(context).size.width,
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(70),
-              boxShadow: [
-                BoxShadow(
-                  blurRadius: 5,
-                  spreadRadius: 0.1,
-                  color: Colors.black38,
+      floatingActionButton: AnimatedContainer(
+        duration: Duration(milliseconds: 200),
+        width: muncul ? MediaQuery.of(context).size.width : 0,
+        height: muncul ? 70 : 0,
+        child: FittedBox(
+          child: Material(
+            child: GestureDetector(
+              onTap: () {
+                Navigator.of(context)
+                    .push(MaterialPageRoute(builder: (_) => Keranjang()));
+              },
+              child: Container(
+                padding: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+                margin: EdgeInsets.symmetric(horizontal: 20),
+                width: MediaQuery.of(context).size.width,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(70),
+                  boxShadow: [
+                    BoxShadow(
+                      blurRadius: 5,
+                      spreadRadius: 0.1,
+                      color: Colors.black38,
+                    ),
+                  ],
                 ),
-              ],
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Text(
-                      "Total Harga : ",
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontFamily: 'Comic',
-                        fontSize: 11,
-                      ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          "Total Harga : ",
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontFamily: 'Comic',
+                            fontSize: 11,
+                          ),
+                        ),
+                        Text(
+                          "Rp. " +
+                              Provider.of<BelanjaProvider>(
+                                context,
+                              ).hargaTotal.toString(),
+                          style: TextStyle(
+                            color: Colors.red,
+                            fontFamily: 'Comic',
+                            fontSize: 18,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ],
                     ),
-                    Text(
-                      "Rp. " +
-                          Provider.of<BelanjaProvider>(
-                            context,
-                          ).hargaTotal.toString(),
-                      style: TextStyle(
-                        color: Colors.red,
-                        fontFamily: 'Comic',
-                        fontSize: 18,
-                        fontWeight: FontWeight.w600,
+                    Container(
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        color: Colors.green.shade600,
+                      ),
+                      child: Text(
+                        Provider.of<BelanjaProvider>(context)
+                            .listBelanja
+                            .length
+                            .toString(),
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontFamily: 'Comic',
+                          fontSize: 16,
+                        ),
                       ),
                     ),
                   ],
                 ),
-                Container(
-                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    color: Colors.green.shade600,
-                  ),
-                  child: Text(
-                    Provider.of<BelanjaProvider>(context)
-                        .listBelanja
-                        .length
-                        .toString(),
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontFamily: 'Comic',
-                      fontSize: 16,
-                    ),
-                  ),
-                ),
-              ],
+              ),
             ),
           ),
         ),

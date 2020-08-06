@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:toko_digital/data.dart';
 import 'package:toko_digital/view/belanja/detail_barang.dart';
 import 'package:toko_digital/view/belanja/provider/belanja_provider.dart';
 import 'package:toko_digital/controller/toast_handling.dart';
@@ -9,6 +10,7 @@ import '../../../model/data_barang.dart';
 
 class ListBahanKue extends StatefulWidget {
   final List<Data_barang> bahanKue;
+  
   final List<String> bahanKueSub;
   ListBahanKue({this.bahanKue, this.bahanKueSub});
 
@@ -19,6 +21,7 @@ class ListBahanKue extends StatefulWidget {
 
 class _ListBahanKueState extends State<ListBahanKue> {
   final List<Data_barang> bahanKue;
+  
   final List<String> bahanKueSub;
   _ListBahanKueState({this.bahanKue, this.bahanKueSub});
   @override
@@ -28,6 +31,7 @@ class _ListBahanKueState extends State<ListBahanKue> {
       height: MediaQuery.of(context).size.height,
       padding: EdgeInsets.all(10),
       child: SingleChildScrollView(
+        controller: Provider.of<BelanjaProvider>(context, listen: false).controller,
         child: Column(
           children: <Widget>[
             Column(

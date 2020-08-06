@@ -1,8 +1,12 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:toko_digital/model/data_barang.dart';
 
 class BelanjaProvider extends ChangeNotifier {
   List<BelanjaItemModel> _listBelanja = List<BelanjaItemModel>();
+  ScrollController _controller = new ScrollController();
+
+  ScrollController get controller =>_controller;
 
   List<BelanjaItemModel> get listBelanja => _listBelanja;
   int _id = 0;

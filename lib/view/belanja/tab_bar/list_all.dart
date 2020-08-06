@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:toko_digital/data.dart';
 import 'package:toko_digital/view/belanja/detail_barang.dart';
 import 'package:toko_digital/view/belanja/provider/belanja_provider.dart';
 import 'package:toko_digital/controller/toast_handling.dart';
@@ -12,6 +13,7 @@ import '../../../model/data_barang.dart';
 import '../../../model/data_barang.dart';
 import '../../../model/data_barang.dart';
 import '../../../model/data_barang.dart';
+import '../provider/belanja_provider.dart';
 
 class ListAll extends StatefulWidget {
   final List<Data_barang> bahanPokok;
@@ -55,7 +57,7 @@ class ListAll extends StatefulWidget {
       this.minumanSub,
       this.pertubuhSub,
       this.produkOlahanSub,
-      this.rumahTanggaSub});
+      this.rumahTanggaSub,});
 
   @override
   _ListAllState createState() => _ListAllState(
@@ -82,6 +84,7 @@ class ListAll extends StatefulWidget {
 }
 
 class _ListAllState extends State<ListAll> {
+
   final List<Data_barang> bahanPokok;
   final List<String> bahanPokokSub;
   final List<String> bumbuMasakSub;
@@ -102,28 +105,27 @@ class _ListAllState extends State<ListAll> {
   final List<Data_barang> ibuanak;
   final List<Data_barang> kesehatan;
   final List<Data_barang> pertubuh;
-  _ListAllState({
-    this.bumbuMasakSub,
-    this.bahanKue,
-    this.bahanPokok,
-    this.bahanPokokSub,
-    this.bahankueSub,
-    this.bumbuMasak,
-    this.ibuanak,
-    this.ibuanakSub,
-    this.kesehatan,
-    this.kesehatanSub,
-    this.makanan,
-    this.makananSub,
-    this.minuman,
-    this.minumanSub,
-    this.pertubuh,
-    this.pertubuhSub,
-    this.produkOlahan,
-    this.produkOlahanSub,
-    this.rumahTangga,
-    this.rumahTanggaSub,
-  });
+  _ListAllState(
+      {this.bumbuMasakSub,
+      this.bahanKue,
+      this.bahanPokok,
+      this.bahanPokokSub,
+      this.bahankueSub,
+      this.bumbuMasak,
+      this.ibuanak,
+      this.ibuanakSub,
+      this.kesehatan,
+      this.kesehatanSub,
+      this.makanan,
+      this.makananSub,
+      this.minuman,
+      this.minumanSub,
+      this.pertubuh,
+      this.pertubuhSub,
+      this.produkOlahan,
+      this.produkOlahanSub,
+      this.rumahTangga,
+      this.rumahTanggaSub,});
 
   @override
   Widget build(BuildContext context) {
@@ -132,6 +134,7 @@ class _ListAllState extends State<ListAll> {
       height: MediaQuery.of(context).size.height,
       padding: EdgeInsets.all(10),
       child: SingleChildScrollView(
+        controller: Provider.of<BelanjaProvider>(context, listen: false).controller,
         child: Column(
           children: <Widget>[
             widget.bahanPokok.length > 0

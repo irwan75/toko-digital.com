@@ -28,6 +28,7 @@ class _ListKesehatanState extends State<ListKesehatan> {
       height: MediaQuery.of(context).size.height,
       padding: EdgeInsets.all(10),
       child: SingleChildScrollView(
+        controller: Provider.of<BelanjaProvider>(context, listen: false).controller,
         child: Column(
           children: <Widget>[
             Column(
